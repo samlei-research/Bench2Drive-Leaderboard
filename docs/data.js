@@ -1223,13 +1223,22 @@ window.METHODS = [
     "year": 2025,
     "venue": "NeurIPS",
     "privileged": false,
-    "researched": false,
-    "expert": null,
-    "modalities": [],
-    "output_type": null,
-    "confidence": null,
-    "justification": null,
-    "source_url": null
+    "researched": true,
+    "expert": "Think2Drive",
+    "modalities": [
+      {
+        "type": "camera",
+        "amount": "1 front-view camera for the Bench2Drive configuration"
+      },
+      {
+        "type": "lidar",
+        "amount": "possibly LiDAR projected to BEV 'following TransFuser' per one sentence, but a separate sentence states Bench2Drive uses only the front-view camera — the paper is internally inconsistent on this point"
+      }
+    ],
+    "output_type": "spatial",
+    "confidence": "medium",
+    "justification": "GaussianFusion's Bench2Drive setup is stated to follow TransFuser++'s backbone/training-dataset setting (implying the official Think2Drive-collected Bench2Drive data) without naming an expert explicitly, and the authors explicitly removed an agent-prediction head from their final design after an ablation showed it hurt performance, leaving only ego-trajectory output.",
+    "source_url": "https://arxiv.org/abs/2506.00034"
   },
   {
     "name": "UniDrive-WM",
@@ -1271,13 +1280,18 @@ window.METHODS = [
     "year": 2026,
     "venue": "CVPRW",
     "privileged": false,
-    "researched": false,
-    "expert": null,
-    "modalities": [],
+    "researched": true,
+    "expert": "Think2Drive",
+    "modalities": [
+      {
+        "type": "camera",
+        "amount": "vision-only, likely 6 surround-view cameras matching Bench2Drive's standard multi-view setup (exact count not stated for the student directly); no LiDAR/radar (explicitly discarded)"
+      }
+    ],
     "output_type": null,
-    "confidence": null,
-    "justification": null,
-    "source_url": null
+    "confidence": "medium",
+    "justification": "The paper trains on the official Bench2Drive 1,000-clip (950/50 split) dataset without naming the collection expert, which strongly implies Think2Drive since that is the standard Bench2Drive data-collection policy, but it is ambiguous whether ORION's inherited 'dynamic agent motion prediction' head remains active at inference versus the final output being purely ego-trajectory.",
+    "source_url": "https://arxiv.org/abs/2604.08266"
   },
   {
     "name": "Cot4AD-CoT",
@@ -1319,13 +1333,22 @@ window.METHODS = [
     "year": 2026,
     "venue": "CVPR",
     "privileged": false,
-    "researched": false,
-    "expert": null,
-    "modalities": [],
-    "output_type": null,
-    "confidence": null,
-    "justification": null,
-    "source_url": null
+    "researched": true,
+    "expert": "PDM-Lite",
+    "modalities": [
+      {
+        "type": "camera",
+        "amount": "1 front-view RGB camera (110° field of view)"
+      },
+      {
+        "type": "language",
+        "amount": "free-form natural-language style instructions plus a learned per-driver preference embedding"
+      }
+    ],
+    "output_type": "spatial",
+    "confidence": "high",
+    "justification": "The malformed id 2603.25740 correctly resolves to \"Drive My Way\" (DMW), whose SimLingo-based backbone is explicitly supervised by PDM-Lite expert demonstrations, and the model predicts only ego route/speed waypoints with no module for other agents' future motion.",
+    "source_url": "https://arxiv.org/abs/2603.25740"
   },
   {
     "name": "TFM+void",
@@ -1417,13 +1440,22 @@ window.METHODS = [
     "year": 2026,
     "venue": "PAMI",
     "privileged": false,
-    "researched": false,
+    "researched": true,
     "expert": null,
-    "modalities": [],
-    "output_type": null,
-    "confidence": null,
-    "justification": null,
-    "source_url": null
+    "modalities": [
+      {
+        "type": "camera",
+        "amount": "unspecified count, described generically as camera input"
+      },
+      {
+        "type": "lidar",
+        "amount": "LiDAR point clouds (count unspecified)"
+      }
+    ],
+    "output_type": "spatial",
+    "confidence": "low",
+    "justification": "R2SE is evaluated on Bench2Drive but trains mainly on NAVSIM/nuPlan-derived data with CARLA hard cases buffered via an unnamed rule-based fallback, so no Think2Drive/PDM-Lite/LEAD/Roach expert is explicitly named, and its planning head outputs an ego trajectory vocabulary while agent-prediction work is cited only as related work, not used in its own pipeline.",
+    "source_url": "https://arxiv.org/abs/2506.09800"
   },
   {
     "name": "DeLL",
@@ -1575,13 +1607,18 @@ window.METHODS = [
     "year": 2026,
     "venue": "CVPRF",
     "privileged": false,
-    "researched": false,
-    "expert": null,
-    "modalities": [],
-    "output_type": null,
-    "confidence": null,
-    "justification": null,
-    "source_url": null
+    "researched": true,
+    "expert": "PDM-Lite",
+    "modalities": [
+      {
+        "type": "camera",
+        "amount": "6 surround-view cameras (N_Cam=6, camera-only setup)"
+      }
+    ],
+    "output_type": "spatial",
+    "confidence": "high",
+    "justification": "The paper explicitly states it re-collected CARLA Leaderboard 2.0 training routes with the rule-based PDM-Lite expert, uses only DETR-style object-detection plus planning supervision (no UniAD/ParaDrive-style agent-future auxiliary tasks), and its diffusion planner predicts only the ego path/speed.",
+    "source_url": "https://arxiv.org/abs/2603.15185"
   },
   {
     "name": "MAPLE",
@@ -1767,13 +1804,26 @@ window.METHODS = [
     "year": 2026,
     "venue": "ICML",
     "privileged": false,
-    "researched": false,
-    "expert": null,
-    "modalities": [],
-    "output_type": null,
-    "confidence": null,
-    "justification": null,
-    "source_url": null
+    "researched": true,
+    "expert": "PDM-Lite",
+    "modalities": [
+      {
+        "type": "camera",
+        "amount": "multi-view, multi-frame RGB images (exact camera count not stated)"
+      },
+      {
+        "type": "lidar",
+        "amount": "1 LiDAR BEV feature (point cloud projected to BEV)"
+      },
+      {
+        "type": "language",
+        "amount": "VQA-style scene-reasoning text produced/consumed by the VLM understanding expert"
+      }
+    ],
+    "output_type": "spatial",
+    "confidence": "medium",
+    "justification": "Table 1 and the PDM-Meta dataset description tie AutoMoT's CARLA training to PDM-Lite, and its outputs (meta-actions, ego waypoints, route points refined by a diffusion refiner) are all ego-focused with no module forecasting other agents' future motion.",
+    "source_url": "https://arxiv.org/abs/2603.14851"
   },
   {
     "name": "TakeVLA",
@@ -1815,13 +1865,22 @@ window.METHODS = [
     "year": 2026,
     "venue": "EMNLP",
     "privileged": false,
-    "researched": false,
-    "expert": null,
-    "modalities": [],
-    "output_type": null,
-    "confidence": null,
-    "justification": null,
-    "source_url": null
+    "researched": true,
+    "expert": "PDM-Lite",
+    "modalities": [
+      {
+        "type": "camera",
+        "amount": "1 front-view camera (no LiDAR, per the paper's text)"
+      },
+      {
+        "type": "language",
+        "amount": "navigation instruction input to the underlying SimLingo backbone plus free-form reasoning text the learned gate optionally generates per frame"
+      }
+    ],
+    "output_type": "spatial",
+    "confidence": "medium",
+    "justification": "Table 1 lists PDM-Lite as BLUE's expert and the paper describes no module forecasting other agents' motion — the gate just chooses between emitting language or ego waypoints directly from a frozen VLA hidden state.",
+    "source_url": "https://arxiv.org/abs/2606.08684"
   },
   {
     "name": "FIVE-VLA",
@@ -1847,12 +1906,21 @@ window.METHODS = [
     "year": 2026,
     "venue": null,
     "privileged": false,
-    "researched": false,
+    "researched": true,
     "expert": null,
-    "modalities": [],
+    "modalities": [
+      {
+        "type": "camera",
+        "amount": "not specified"
+      },
+      {
+        "type": "language",
+        "amount": "not specified"
+      }
+    ],
     "output_type": null,
-    "confidence": null,
-    "justification": null,
+    "confidence": "user-provided",
+    "justification": "Modalities set directly by the repo maintainer.",
     "source_url": null
   },
   {
@@ -1863,12 +1931,21 @@ window.METHODS = [
     "year": 2026,
     "venue": null,
     "privileged": false,
-    "researched": false,
-    "expert": null,
-    "modalities": [],
+    "researched": true,
+    "expert": "PDM-Lite",
+    "modalities": [
+      {
+        "type": "camera",
+        "amount": "not specified"
+      },
+      {
+        "type": "language",
+        "amount": "not specified"
+      }
+    ],
     "output_type": null,
-    "confidence": null,
-    "justification": null,
+    "confidence": "user-provided",
+    "justification": "Expert and modalities set directly by the repo maintainer.",
     "source_url": null
   },
   {
