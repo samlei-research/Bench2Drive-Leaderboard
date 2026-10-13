@@ -15,6 +15,8 @@ To add a new method please open a pull request. For fixing errors please open a 
 
 ## Interactive leaderboard
 
+![Top of the interactive Bench2Drive leaderboard, showing the summary stats panel, filter controls, and the first few rows of the table](assets/leaderboard-screenshot.png)
+
 [`docs/`](docs/) contains an interactive version of this table: filter and sort by Driving Score / Success Rate,
 by the **expert** whose demonstrations a method was trained on (Think2Drive / PDM-Lite / LEAD / other),
 by **sensor modality** (camera / lidar / radar / language, with amounts), and by whether the method's output is a
