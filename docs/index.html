@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bench2Drive Leaderboard — Interactive</title>
+<meta name="description" content="Interactive, filterable Bench2Drive autonomous-driving leaderboard: filter and sort by driving score, expert supervision, sensor modalities and output type." />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="page-head">
+  <div class="wrap">
+    <h1>Bench2Drive Leaderboard <span class="tag">interactive</span></h1>
+    <p class="lede">
+      A community-maintained list of methods evaluated on
+      <a href="https://github.com/Thinklab-SJTU/Bench2Drive" target="_blank" rel="noopener">Bench2Drive</a> v0.0.3,
+      self-reported from each publication. Beyond Driving&nbsp;Score (DS) and Success&nbsp;Rate (SR), this view lets you
+      slice methods by the <strong>expert</strong> whose demonstrations they were trained on, which
+      <strong>sensor modalities</strong> (and how many of each) they consume, and whether their output is a plain
+      <strong>spatial</strong> trajectory or a <strong>spatiotemporal</strong> forecast of the scene.
+    </p>
+    <p class="meta-row">
+      <span id="last-updated"></span>
+      · <a href="https://github.com/samlei-research/Bench2Drive-Leaderboard" target="_blank" rel="noopener">source repo</a>
+      · <a href="https://github.com/samlei-research/Bench2Drive-Leaderboard/issues" target="_blank" rel="noopener">report an error</a>
+      · <a href="#contribute">how the new fields are populated</a>
+      · <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme">◐ theme</button>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="stats" id="stats" aria-label="Summary statistics"></section>
+
+  <section class="controls" aria-label="Filters">
+    <div class="control-row">
+      <label class="search-box">
+        <span class="sr-only">Search methods</span>
+        <input id="search" type="search" placeholder="Search method name…" autocomplete="off" />
+      </label>
+
+      <div class="chip-group" id="modality-filters" data-label="Modality">
+        <span class="chip-group-label">Modality</span>
+        <!-- chips injected by JS -->
+      </div>
+
+      <label class="select-box">
+        <span>Expert</span>
+        <select id="expert-filter"></select>
+      </label>
+
+      <label class="select-box">
+        <span>Output</span>
+        <select id="output-filter">
+          <option value="">All</option>
+          <option value="spatial">Spatial</option>
+          <option value="spatiotemporal">Spatiotemporal</option>
+          <option value="unknown">Unknown</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="control-row">
+      <label class="check-box">
+        <input type="checkbox" id="show-privileged" checked />
+        Show privileged (ground-truth) experts
+      </label>
+      <label class="check-box">
+        <input type="checkbox" id="match-all-modalities" />
+        Require ALL selected modalities (default: any)
+      </label>
+      <button id="reset-filters" class="btn-ghost" type="button">Reset filters</button>
+      <span class="result-count" id="result-count"></span>
+    </div>
+  </section>
+
+  <section aria-label="Leaderboard table">
+    <div class="table-scroll">
+      <table id="leaderboard">
+        <thead>
+          <tr>
+            <th data-sort="rank" class="col-rank">#</th>
+            <th data-sort="name" class="col-name">Method</th>
+            <th data-sort="ds" class="col-num is-sorted-desc">DS ↑</th>
+            <th data-sort="sr" class="col-num">SR ↑</th>
+            <th data-sort="year" class="col-num">Year</th>
+            <th data-sort="venue" class="col-venue">Venue</th>
+            <th data-sort="expert" class="col-expert">Expert</th>
+            <th class="col-modalities">Modalities</th>
+            <th data-sort="output_type" class="col-output">Output</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="empty-state" id="empty-state" hidden>No methods match these filters.</p>
+  </section>
+
+  <section class="legend" id="contribute">
+    <h2>About the new fields</h2>
+    <dl>
+      <dt>Expert</dt>
+      <dd>The privileged ground-truth driving policy whose rollouts supervised the method via imitation learning —
+        typically <code>Think2Drive</code> (the original Bench2Drive dataset expert), <code>PDM-Lite</code>, or
+        <code>LEAD</code>. Methods trained purely by RL, or where this isn't specified, are marked accordingly.</dd>
+      <dt>Modalities</dt>
+      <dd>Which of camera / lidar / radar / language the architecture consumes as input, with how many
+        (e.g. "6 surround cameras", "1 LiDAR"). A single discrete navigation command is <em>not</em> counted as
+        "language" — only free-form text / VLM-style instruction or reasoning counts.</dd>
+      <dt>Output</dt>
+      <dd><strong>Spatial</strong>: the model predicts only an ego trajectory / waypoints / control, with no explicit
+        forecast of other agents. <strong>Spatiotemporal</strong>: the model jointly forecasts the future motion or
+        occupancy of the scene (other agents, BEV future states) as part of its pipeline before planning.</dd>
+    </dl>
+    <p>
+      These three fields are not in the original Bench2Drive benchmark output — they were compiled by reading each
+      paper and are seeded only where that could be done with reasonable confidence (hover a badge for the
+      one-line justification and a link to the source paper). Everything else is marked <span class="pill pill-unknown">unknown</span>
+      on purpose rather than guessed. If you know a method's correct values, please open a pull request against
+      <code>docs/data.js</code> in the repo — same workflow as adding a new method to the main table.
+    </p>
+  </section>
+
+  <footer class="page-foot">
+    <p>Results are self-reported, copied from the respective publications. Methods below the divider use privileged
+      ground-truth perception. See the <a href="../README.md">repository README</a> for the full methodology.</p>
+  </footer>
+</main>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

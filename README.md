@@ -13,6 +13,21 @@ To add a new method please open a pull request. For fixing errors please open a 
 
 [Main.tex](main.tex) contains the leaderboard table as latex with the associated citations in CVPR-style.
 
+## Interactive leaderboard
+
+[`docs/`](docs/) contains an interactive version of this table: filter and sort by Driving Score / Success Rate,
+by the **expert** whose demonstrations a method was trained on (Think2Drive / PDM-Lite / LEAD / other),
+by **sensor modality** (camera / lidar / radar / language, with amounts), and by whether the method's output is a
+plain **spatial** trajectory or a **spatiotemporal** forecast of the scene. These extra fields are seeded only where
+they could be verified against the paper (see `docs/data.js`); everything else is marked "unknown" rather than
+guessed, and can be filled in via pull request the same way new methods are added.
+
+- **View it online (GitHub Pages):** once Pages is enabled for this repo (Settings → Pages → Source: "Deploy from a
+  branch" → branch `main` (or `feat/interactive_webpage` until merged), folder `/docs`), it will be served at
+  `https://<org>.github.io/Bench2Drive-Leaderboard/`.
+- **Run it locally:** no server or build step needed — just open `docs/index.html` directly in a browser. If you'd
+  rather serve it over HTTP, run `python3 -m http.server --directory docs 8000` and visit `http://localhost:8000`.
+
 Last updated: 24. Sep. 2026
 
 ## Results:
