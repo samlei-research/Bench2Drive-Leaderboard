@@ -38,6 +38,7 @@
     matchAll: false,
     expert: "",
     output: "",
+    venue: "",
     showPrivileged: true,
     sortKey: "ds",
     sortDir: "desc",
@@ -81,6 +82,11 @@
     if (state.output) {
       var ot = r.output_type || "unknown";
       if (ot !== state.output) return false;
+    }
+    if (state.venue) {
+      var isPublished = !!r.venue;
+      if (state.venue === "published" && !isPublished) return false;
+      if (state.venue === "unpublished" && isPublished) return false;
     }
     return true;
   }
@@ -292,6 +298,10 @@
       state.output = e.target.value;
       renderTable();
     });
+    document.getElementById("venue-filter").addEventListener("change", function (e) {
+      state.venue = e.target.value;
+      renderTable();
+    });
     document.getElementById("show-privileged").addEventListener("change", function (e) {
       state.showPrivileged = e.target.checked;
       renderTable();
@@ -306,10 +316,12 @@
       state.matchAll = false;
       state.expert = "";
       state.output = "";
+      state.venue = "";
       state.showPrivileged = true;
       document.getElementById("search").value = "";
       document.getElementById("expert-filter").value = "";
       document.getElementById("output-filter").value = "";
+      document.getElementById("venue-filter").value = "";
       document.getElementById("show-privileged").checked = true;
       document.getElementById("match-all-modalities").checked = false;
       document.querySelectorAll("#modality-filters .chip").forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
@@ -334,13 +346,13 @@
     var btn = document.getElementById("theme-toggle");
     var stored = null;
     try { stored = localStorage.getItem("b2d-theme"); } catch (e) {}
-    if (stored) document.documentElement.setAttribute("data-theme", stored);
+    // Light is the standard theme; dark only applies if the viewer explicitly chose it before.
+    if (stored === "dark") document.documentElement.setAttribute("data-theme", "dark");
     btn.addEventListener("click", function () {
-      var cur = document.documentElement.getAttribute("data-theme");
-      var next = cur === "dark" ? "light" : cur === "light" ? "" : "dark";
-      if (next) document.documentElement.setAttribute("data-theme", next);
-      else document.documentElement.removeAttribute("data-theme");
-      try { localStorage.setItem("b2d-theme", next); } catch (e) {}
+      var isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      if (isDark) document.documentElement.removeAttribute("data-theme");
+      else document.documentElement.setAttribute("data-theme", "dark");
+      try { localStorage.setItem("b2d-theme", isDark ? "light" : "dark"); } catch (e) {}
     });
   }
 

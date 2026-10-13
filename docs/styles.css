@@ -1,14 +1,20 @@
 :root {
   color-scheme: light;
-  --surface-1:      #fcfcfb;
-  --surface-2:      #f9f9f7;
-  --text-primary:   #0b0b0b;
-  --text-secondary: #52514e;
-  --text-muted:     #898781;
-  --gridline:       #e1e0d9;
-  --baseline:       #c3c2b7;
-  --border:         rgba(11,11,11,0.10);
-  --accent:         #2a78d6;
+  /* palette + type from samlei.io ("forest-green comic" tokens), toned down for a data-dense page */
+  --font-body:    'DM Sans', Arial, sans-serif;
+  --font-display: 'Bangers', 'Brush Script MT', serif;
+
+  --surface-1:      #fffaf0;   /* card */
+  --surface-2:      #f5ecd7;   /* paper */
+  --text-primary:   #14110f;   /* ink */
+  --text-secondary: #4f7d68;   /* forest-muted */
+  --text-muted:     #6e8a73;
+  --gridline:       #e6dcc0;
+  --baseline:       #cfc3a0;
+  --border:         rgba(20,17,15,0.14);
+  --accent:         #1f6a45;   /* forest */
+  --accent-strong:  #123b28;   /* forest-dark */
+  --accent-soft:    #bfe6cc;   /* forest-light */
 
   --mod-camera:    #2a78d6;
   --mod-lidar:     #eb6834;
@@ -18,45 +24,24 @@
   --exp-think2drive: #e87ba4;
   --exp-pdmlite:      #008300;
   --exp-lead:         #4a3aa7;
-  --exp-other:        #898781;
+  --exp-other:        #7c8f84;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:where(:not([data-theme="light"])) {
-    color-scheme: dark;
-    --surface-1:      #1a1a19;
-    --surface-2:      #0d0d0d;
-    --text-primary:   #ffffff;
-    --text-secondary: #c3c2b7;
-    --text-muted:     #898781;
-    --gridline:       #2c2c2a;
-    --baseline:       #383835;
-    --border:         rgba(255,255,255,0.10);
-    --accent:         #3987e5;
-
-    --mod-camera:    #3987e5;
-    --mod-lidar:     #d95926;
-    --mod-radar:     #199e70;
-    --mod-language:  #c98500;
-
-    --exp-think2drive: #d55181;
-    --exp-pdmlite:      #008300;
-    --exp-lead:         #9085e9;
-    --exp-other:        #898781;
-  }
-}
-
+/* Light is the standard theme regardless of OS preference; dark only applies
+   when explicitly turned on via the theme toggle (sets data-theme="dark"). */
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --surface-1:      #1a1a19;
-  --surface-2:      #0d0d0d;
-  --text-primary:   #ffffff;
-  --text-secondary: #c3c2b7;
-  --text-muted:     #898781;
-  --gridline:       #2c2c2a;
-  --baseline:       #383835;
-  --border:         rgba(255,255,255,0.10);
-  --accent:         #3987e5;
+  --surface-1:      #1b2420;
+  --surface-2:      #11160f;
+  --text-primary:   #f5ecd7;
+  --text-secondary: #9dbba9;
+  --text-muted:     #6f8579;
+  --gridline:       #2a3530;
+  --baseline:       #3a473f;
+  --border:         rgba(245,236,215,0.14);
+  --accent:         #4fcf8a;
+  --accent-strong:  #bfe6cc;
+  --accent-soft:    #1f6a45;
 
   --mod-camera:    #3987e5;
   --mod-lidar:     #d95926;
@@ -66,7 +51,7 @@
   --exp-think2drive: #d55181;
   --exp-pdmlite:      #008300;
   --exp-lead:         #9085e9;
-  --exp-other:        #898781;
+  --exp-other:        #86977d;
 }
 
 * { box-sizing: border-box; }
@@ -75,10 +60,18 @@ html, body {
   margin: 0;
   background: var(--surface-2);
   color: var(--text-primary);
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font-body);
 }
 
-a { color: var(--accent); }
+a { color: var(--accent); font-weight: 700; }
+a:hover { color: var(--accent-strong); }
+
+.brand-font {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: var(--accent-strong);
+}
 
 .wrap {
   max-width: 1120px;
@@ -93,13 +86,15 @@ a { color: var(--accent); }
 }
 
 .page-head h1 {
-  margin: 0 0 8px;
-  font-size: 1.6rem;
+  margin: 0 0 10px;
+  font-size: 2rem;
+  line-height: 1.2;
 }
 
 .tag {
-  font-size: 0.6em;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: 0.55em;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--text-secondary);
@@ -341,7 +336,7 @@ thead th {
   padding: 10px 12px;
   border-bottom: 1px solid var(--gridline);
   color: var(--text-secondary);
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
   cursor: pointer;
 }
@@ -366,7 +361,7 @@ tbody tr.is-divider td {
 
 .col-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .col-rank { color: var(--text-muted); font-variant-numeric: tabular-nums; }
-.col-name a { font-weight: 600; text-decoration: none; }
+.col-name a { font-weight: 700; text-decoration: none; }
 .col-name a:hover { text-decoration: underline; }
 .col-name .best { color: var(--exp-pdmlite); }
 

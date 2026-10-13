@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Bench2Drive Leaderboard — Interactive</title>
 <meta name="description" content="Interactive, filterable Bench2Drive autonomous-driving leaderboard: filter and sort by driving score, expert supervision, sensor modalities and output type." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 <header class="page-head">
   <div class="wrap">
-    <h1>Bench2Drive Leaderboard <span class="tag">interactive</span></h1>
+    <h1 class="brand-font">Bench2Drive Leaderboard <span class="tag">interactive</span></h1>
     <p class="lede">
       A community-maintained list of methods evaluated on
       <a href="https://github.com/Thinklab-SJTU/Bench2Drive" target="_blank" rel="noopener">Bench2Drive</a> v0.0.3,
@@ -59,6 +62,15 @@
           <option value="unknown">Unknown</option>
         </select>
       </label>
+
+      <label class="select-box">
+        <span>Venue</span>
+        <select id="venue-filter">
+          <option value="">All</option>
+          <option value="published">Published</option>
+          <option value="unpublished">Unpublished (preprint)</option>
+        </select>
+      </label>
     </div>
 
     <div class="control-row">
@@ -98,7 +110,7 @@
   </section>
 
   <section class="legend" id="contribute">
-    <h2>About the new fields</h2>
+    <h2 class="brand-font">About the new fields</h2>
     <dl>
       <dt>Expert</dt>
       <dd>The privileged ground-truth driving policy whose rollouts supervised the method via imitation learning —
