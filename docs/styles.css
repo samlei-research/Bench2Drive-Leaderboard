@@ -2,7 +2,6 @@
   color-scheme: light;
   /* palette + type from samlei.io ("forest-green comic" tokens), toned down for a data-dense page */
   --font-body:    'DM Sans', Arial, sans-serif;
-  --font-display: 'Bangers', 'Brush Script MT', serif;
 
   --surface-1:      #fffaf0;   /* card */
   --surface-2:      #f5ecd7;   /* paper */
@@ -67,9 +66,8 @@ a { color: var(--accent); font-weight: 700; }
 a:hover { color: var(--accent-strong); }
 
 .brand-font {
-  font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: 1px;
+  font-family: var(--font-body);
+  font-weight: 700;
   color: var(--accent-strong);
 }
 
